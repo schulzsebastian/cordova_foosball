@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Foosball</title>
+		<!-- Meta -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+		<!-- CSS -->
+		<link rel="stylesheet" href="css/alertify.min.css">
+		<link rel="stylesheet" href="css/alertify.bootstrap.min.css">
+		<link rel="stylesheet" href="css/alertify.core.css">
+		<link rel="stylesheet" href="css/materialize.min.css" media="screen,projection">
+		<!-- JS -->
+		<script src="js/alertify.min.js"></script>
+		<script src="js/jquery-2.2.4.min.js"></script>
+		<script src="js/knockout-3.4.0.js"></script>
+		<script src="js/materialize.js"></script>
+		<!-- Other -->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	</head>
+	<body>
+		<div class="navbar-fixed">
+			<nav class="blue" role="navigation">
+		    	<ul id="slide-out" class="side-nav">
+		        	<li><a href="#">Ranking</a></li>
+		        	<li><a href="#">Lista graczy</a></li>
+		        	<li><a href="#">Dodaj gracza</a></li>
+		      	</ul>
+		      	<a href="#" data-activates="slide-out" class="button-collapse show-on-large">
+		      		<i class="material-icons" style="padding-left:10px">menu</i>
+		      	</a>
+		    </nav>
+		</div>
+		<div class="section" data-bind="visible: mainView()">
+		    <div class="container">
+		      <h1 class="header center blue-text">Foosball</h1>
+		      <div class="row center">
+		        <h5 class="header col s12 light">Śmieszne demotywujące zdanie</h5>
+		      </div>
+		      <br><br><br><br><br><br>
+		      <div class="row center">
+		        <button class="btn-large waves-effect waves-light blue" data-bind="click: chooseTeams">Zagraj mecz</button>
+		      </div>
+	    	</div>
+    	</div>
+    	<div class="section container" data-bind="visible: chooseView">
+    	<br><br>
+    	<div class="row" align="center" style="padding-left:30px">
+    		<div class="col s6" align="left">
+    			<!-- ko foreach: data -->
+	    		<input type="checkbox" data-bind="attr: { id: 'a' + id }, checkedValue: name, checked: $root.teamA, click: $root.nextTeam"/>
+	    		<label data-bind="attr: { for: 'a' + id }, text: name"></label><br>
+	      		<!-- /ko -->
+    		</div>
+    		<div class="col s6" align="left" data-bind="visible: secondTeamView">
+	    		<!-- ko foreach: data -->
+	    			<!-- ko if: $root.teamA.indexOf(name) < 0 -->
+		    		<input type="checkbox" data-bind="attr: { id: 'b' + id }, checkedValue: name, checked: $root.teamB, click: $root.checkTeams"/>
+		    		<label data-bind="attr: { for: 'b' + id }, text: name"></label><br>
+		    		<!-- /ko -->
+	      		<!-- /ko -->
+    		</div>
+    	</div>
+    	<br><br><br><br><br>
+    	<div class="row center" data-bind="visible: playButton">
+    		 <button class="btn-large waves-effect waves-light blue" data-bind="click: playTeams">Graj!</button>
+    	</div>
+    	</div>
+  		<!-- Main function -->
+		<script>
+			function indexModel(){
+				var self = this;
+
+				self.data = ko.observableArray(
+				[{id:1,name:'Aleksandra', points:0},
+				{id:2, name:'Łukasz', points:0},
+				{id:3, name:'Wojciech', points:0},
+				{id:4, name:'Sebastian', points:0}])
+
+				self.teamA = ko.observableArray()
+				self.teamB = ko.observableArray()
+				self.secondTeamView = ko.observable(false)
+				self.mainView = ko.observable(true)
+				self.chooseView = ko.observable(false)
+				self.playView = ko.observable(false)
+				self.playButton = ko.observable(false)
+
+				self.nextTeam = function(item){
+					self.checkTeams()
+					if(self.teamA().length > 0){
+						self.secondTeamView(true)
+
+					}else{
+						self.secondTeamView(false)
+					}
+					return true
+				}
+				self.checkTeams = function(){
+					if(self.teamA().length > 0 && self.teamB().length >0){
+						self.playButton(true)
+					}else{
+						self.playButton(false)
+					}
+					return true
+				}
+				self.chooseTeams = function(){
+					self.mainView(false)
+					self.playView(false)	
+					self.chooseView(true)
+				}
+				self.playTeams = function(){
+					self.mainView(false)
+					self.chooseView(false)
+					self.playView(true)
+				}
+			}
+			var vm = new indexModel();
+  			ko.applyBindings(vm);
+		</script>
+		<!-- jQuery -->
+		<script>
+			$('.button-collapse').sideNav();
+		</script>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
