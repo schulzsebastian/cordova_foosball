@@ -32,40 +32,64 @@
 		      	</a>
 		    </nav>
 		</div>
-		<div class="section" data-bind="visible: mainView()">
-		    <div class="container">
-		      <h1 class="header center blue-text">Foosball</h1>
-		      <div class="row center">
-		        <h5 class="header col s12 light">Śmieszne demotywujące zdanie</h5>
-		      </div>
-		      <br><br><br><br><br><br>
-		      <div class="row center">
-		        <button class="btn-large waves-effect waves-light blue" data-bind="click: chooseTeams">Zagraj mecz</button>
-		      </div>
-	    	</div>
+		<div class="section contatiner" data-bind="visible: mainView()">
+			<h1 class="header center blue-text">Foosball</h1>
+			<div class="row center">
+				<div class="col s12">
+					<h5 class="header col s12 light">Śmieszne demotywujące zdanie</h5>
+				</div>
+				<br><br><br><br><br>
+				<div class="col s12">
+					<button class="btn-large waves-effect waves-light blue" data-bind="click: chooseTeams">Zagraj mecz</button>
+				</div>
+			</div>
     	</div>
     	<div class="section container" data-bind="visible: chooseView">
-    	<br><br>
-    	<div class="row" align="center" style="padding-left:30px">
-    		<div class="col s6" align="left">
-    			<!-- ko foreach: data -->
-	    		<input type="checkbox" data-bind="attr: { id: 'a' + id }, checkedValue: name, checked: $root.teamA, click: $root.nextTeam"/>
-	    		<label data-bind="attr: { for: 'a' + id }, text: name"></label><br>
-	      		<!-- /ko -->
-    		</div>
-    		<div class="col s6" align="left" data-bind="visible: secondTeamView">
-	    		<!-- ko foreach: data -->
-	    			<!-- ko if: $root.teamA.indexOf(name) < 0 -->
-		    		<input type="checkbox" data-bind="attr: { id: 'b' + id }, checkedValue: name, checked: $root.teamB, click: $root.checkTeams"/>
-		    		<label data-bind="attr: { for: 'b' + id }, text: name"></label><br>
-		    		<!-- /ko -->
-	      		<!-- /ko -->
-    		</div>
+	    	<br><br>
+	    	<div class="row" style="padding-left:30px">
+	    		<div class="col s6">
+	    			<!-- ko foreach: data -->
+		    		<input type="checkbox" data-bind="attr: { id: 'a' + id }, checkedValue: $data, checked: $root.teamA, click: $root.nextTeam"/>
+		    		<label data-bind="attr: { for: 'a' + id }, text: name"></label><br>
+		      		<!-- /ko -->
+	    		</div>
+	    		<div class="col s6" data-bind="visible: secondTeamView">
+		    		<!-- ko foreach: data -->
+		    			<!-- ko if: $root.teamA.indexOf($data) < 0 -->
+			    		<input type="checkbox" data-bind="attr: { id: 'b' + id }, checkedValue: $data, checked: $root.teamB, click: $root.checkTeams"/>
+			    		<label data-bind="attr: { for: 'b' + id }, text: name"></label><br>
+			    		<!-- /ko -->
+		      		<!-- /ko -->
+	    		</div>
+	    	</div>
+	    	<br><br><br><br><br><br>
+	    	<div class="row center" data-bind="visible: playButton">
+	    		 <button class="btn-large waves-effect waves-light blue" data-bind="click: playTeams">Graj!</button>
+	    	</div>
     	</div>
-    	<br><br><br><br><br>
-    	<div class="row center" data-bind="visible: playButton">
-    		 <button class="btn-large waves-effect waves-light blue" data-bind="click: playTeams">Graj!</button>
-    	</div>
+    	<div class="section container" data-bind="visible: playView()">
+			<h2 class="header center blue-text">Powodzenia!</h1>
+			<div class="row center">
+				<div class="col s12">
+					<h5 class="header light">A po grze proszę uczciwie zaznaczyć wynik</h5>
+				</div>
+				<br><br><br><br><br>
+				<div class="col s12">
+	    			<button class="btn-large waves-effect waves-light blue" data-bind="text: teamANames"></button>
+	      		</div>
+	      		<br><br><br><br>
+	      		<div class="col s12">
+					<button class="btn-large waves-effect waves-light blue">Remis</button>
+	      		</div>
+	      		<br><br><br><br>
+	      		<div class="col s12">
+		    		<button class="btn-large waves-effect waves-light blue" data-bind="text: teamBNames"></button>
+	      		</div>
+	      		<br><br><br><br>
+	      		<div class="col s12">
+		    		<button class="btn-large waves-effect waves-light red">Anuluj</button>
+	      		</div>
+	    	</div>
     	</div>
   		<!-- Main function -->
 		<script>
@@ -80,6 +104,8 @@
 
 				self.teamA = ko.observableArray()
 				self.teamB = ko.observableArray()
+				self.teamANames = ko.observableArray()
+				self.teamBNames = ko.observableArray()
 				self.secondTeamView = ko.observable(false)
 				self.mainView = ko.observable(true)
 				self.chooseView = ko.observable(false)
@@ -113,6 +139,14 @@
 					self.mainView(false)
 					self.chooseView(false)
 					self.playView(true)
+					self.teamANames([])
+					self.teamBNames([])
+					self.teamA().forEach(function(player){
+						self.teamANames.push(player.name)
+					})
+					self.teamB().forEach(function(player){
+						self.teamBNames.push(player.name)
+					})
 				}
 			}
 			var vm = new indexModel();
