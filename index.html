@@ -18,15 +18,15 @@
 	<body>
 		<div class="navbar-fixed">
 			<nav class="blue" role="navigation">
-		    	<ul id="slide-out" class="side-nav">
-		        	<li><a href="#">Ranking</a></li>
-		        	<li><a href="#">Lista graczy</a></li>
-		        	<li><a href="#">Dodaj gracza</a></li>
-		      	</ul>
-		      	<a href="#" data-activates="slide-out" class="button-collapse show-on-large">
-		      		<i class="material-icons" style="padding-left:10px">menu</i>
-		      	</a>
-		    </nav>
+				<ul id="slide-out" class="side-nav">
+					<li><a href="#">Ranking</a></li>
+					<li><a href="#">Lista graczy</a></li>
+					<li><a href="#">Dodaj gracza</a></li>
+				</ul>
+				<a href="#" data-activates="slide-out" class="button-collapse show-on-large">
+					<i class="material-icons" style="padding-left:10px">menu</i>
+				</a>
+			</nav>
 		</div>
 		<div class="section contatiner" data-bind="visible: mainView">
 			<h1 class="header center blue-text">Foosball</h1>
@@ -39,32 +39,32 @@
 					<button class="btn-large waves-effect waves-light blue" data-bind="click: chooseTeams">Zagraj mecz</button>
 				</div>
 			</div>
-    	</div>
-    	<div class="section container" data-bind="visible: chooseView">
-	    	<br><br>
-	    	<div class="row" style="padding-left:30px">
-	    		<div class="col s6">
-	    			<!-- ko foreach: data -->
-		    		<input type="checkbox" data-bind="attr: { id: 'a' + id }, checkedValue: $data, checked: $root.teamA, click: $root.nextTeam"/>
-		    		<label data-bind="attr: { for: 'a' + id }, text: name"></label><br>
-		      		<!-- /ko -->
-	    		</div>
-	    		<div class="col s6" data-bind="visible: secondTeamView">
-		    		<!-- ko foreach: data -->
-		    			<!-- ko if: $root.teamA.indexOf($data) < 0 -->
-			    		<input type="checkbox" data-bind="attr: { id: 'b' + id }, checkedValue: $data, checked: $root.teamB, click: $root.checkTeams"/>
-			    		<label data-bind="attr: { for: 'b' + id }, text: name"></label><br>
-			    		<!-- /ko -->
-		      		<!-- /ko -->
-	    		</div>
-	    	</div>
-	    	<br><br><br><br><br><br>
-	    	<div class="row center">
-	    		 <button class="btn-large waves-effect waves-light blue" data-bind="click: playTeams, visible: playButton">Graj!</button>
-	    		 <button class="btn-large waves-effect waves-light red" data-bind="click: backToMain">Cofnij</button>
-	    	</div>
-    	</div>
-    	<div class="section container" data-bind="visible: playView">
+		</div>
+		<div class="section container" data-bind="visible: chooseView">
+			<br><br>
+			<div class="row" style="padding-left:30px">
+				<div class="col s6">
+					<!-- ko foreach: data -->
+					<input type="checkbox" data-bind="attr: { id: 'a' + id }, checkedValue: $data, checked: $root.teamA, click: $root.nextTeam"/>
+					<label data-bind="attr: { for: 'a' + id }, text: name"></label><br>
+					<!-- /ko -->
+				</div>
+				<div class="col s6" data-bind="visible: secondTeamView">
+					<!-- ko foreach: data -->
+						<!-- ko if: $root.teamA.indexOf($data) < 0 -->
+						<input type="checkbox" data-bind="attr: { id: 'b' + id }, checkedValue: $data, checked: $root.teamB, click: $root.checkTeams"/>
+						<label data-bind="attr: { for: 'b' + id }, text: name"></label><br>
+						<!-- /ko -->
+					<!-- /ko -->
+				</div>
+			</div>
+			<br><br><br><br><br><br>
+			<div class="row center">
+				 <button class="btn-large waves-effect waves-light blue" data-bind="click: playTeams, visible: playButton">Graj!</button>
+				 <button class="btn-large waves-effect waves-light red" data-bind="click: backToMain">Cofnij</button>
+			</div>
+		</div>
+		<div class="section container" data-bind="visible: playView">
 			<h2 class="header center blue-text">Powodzenia!</h1>
 			<div class="row center">
 				<div class="col s12">
@@ -72,37 +72,43 @@
 				</div>
 				<br><br><br><br><br>
 				<div class="col s12">
-	    			<button class="btn-large waves-effect waves-light blue" data-bind="text: teamANames().join(' i '), click: winTeamA"></button>
-	      		</div>
-	      		<br><br><br><br>
-	      		<div class="col s12">
+					<button class="btn-large waves-effect waves-light blue" data-bind="text: teamANames().join(' i '), click: winTeamA"></button>
+				</div>
+				<br><br><br><br>
+				<div class="col s12">
 					<button class="btn-large waves-effect waves-light blue" data-bind="text: 'Remis', click: winDraw"></button>
-	      		</div>
-	      		<br><br><br><br>
-	      		<div class="col s12">
-		    		<button class="btn-large waves-effect waves-light blue" data-bind="text: teamBNames().join(' i '), click: winTeamB"></button>
-	      		</div>
-	      		<br><br><br><br>
-	      		<div class="col s12">
-		    		<button class="btn-large waves-effect waves-light red" data-bind="text: 'Cofnij', click: chooseTeams"></button>
-	      		</div>
-	    	</div>
-    	</div>
-    	<div class="section container" data-bind="visible: gratulationView">
+				</div>
+				<br><br><br><br>
+				<div class="col s12">
+					<button class="btn-large waves-effect waves-light blue" data-bind="text: teamBNames().join(' i '), click: winTeamB"></button>
+				</div>
+				<br><br><br><br>
+				<div class="col s12">
+					<button class="btn-large waves-effect waves-light red" data-bind="text: 'Cofnij', click: chooseTeams"></button>
+				</div>
+			</div>
+		</div>
+		<div class="section container" data-bind="visible: gratulationView">
 			<h2 class="header center blue-text">Gratulacje!</h1>
 			<div class="row center">
 				<div class="col s12">
-					<h5 class="header light">Wygrani:<br><strong data-bind="text: winnerNames().join(' i ')"></strong></h5>
+				<!-- ko if: winnerNames().length > 1 -->
+					<h5 class="header light">Zwycięzcy:</h5>
+				<!-- /ko -->
+				<!-- ko ifnot: winnerNames().length > 1 -->
+					<h5 class="header light">Zwycięzca:</h5>
+				<!-- /ko -->
+				<br><br><h5><strong data-bind="text: winnerNames().join(' i ')"></strong></h5>
 				</div>
 				<br><br><br><br><br>
 
 				<br><br><br><br><br>
 				<div class="col s12">
-		    		<button class="btn-large waves-effect waves-light blue" data-bind="text: 'Zagraj jeszcze raz!', click: chooseTeams"></button>
-	      		</div>
-	    	</div>
-    	</div>
-  		<!-- Main function -->
+					<button class="btn-large waves-effect waves-light blue" data-bind="text: 'Zagraj jeszcze raz!', click: backToMain"></button>
+				</div>
+			</div>
+		</div>
+		<!-- Main function -->
 		<script>
 			function indexModel(){
 				var self = this;
@@ -197,7 +203,7 @@
 				}
 			}
 			var vm = new indexModel();
-  			ko.applyBindings(vm);
+			ko.applyBindings(vm);
 		</script>
 		<!-- jQuery -->
 		<script>
