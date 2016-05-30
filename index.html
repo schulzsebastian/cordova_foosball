@@ -59,19 +59,20 @@
 	    		</div>
 	    	</div>
 	    	<br><br><br><br><br><br>
-	    	<div class="row center" data-bind="visible: playButton">
-	    		 <button class="btn-large waves-effect waves-light blue" data-bind="click: playTeams">Graj!</button>
+	    	<div class="row center">
+	    		 <button class="btn-large waves-effect waves-light blue" data-bind="click: playTeams, visible: playButton">Graj!</button>
+	    		 <button class="btn-large waves-effect waves-light red" data-bind="click: backToMain">Cofnij</button>
 	    	</div>
     	</div>
     	<div class="section container" data-bind="visible: playView">
 			<h2 class="header center blue-text">Powodzenia!</h1>
 			<div class="row center">
 				<div class="col s12">
-					<h5 class="header light">A po grze proszę uczciwie zaznaczyć wynik</h5>
+					<h5 class="header light">A po grze proszę uczciwie wybrać zwycięzcę</h5>
 				</div>
 				<br><br><br><br><br>
 				<div class="col s12">
-	    			<button class="btn-large waves-effect waves-light blue" data-bind="text: teamANames, click: winTeamA"></button>
+	    			<button class="btn-large waves-effect waves-light blue" data-bind="text: teamANames().join(' i '), click: winTeamA"></button>
 	      		</div>
 	      		<br><br><br><br>
 	      		<div class="col s12">
@@ -79,7 +80,7 @@
 	      		</div>
 	      		<br><br><br><br>
 	      		<div class="col s12">
-		    		<button class="btn-large waves-effect waves-light blue" data-bind="text: teamBNames, click: winTeamB"></button>
+		    		<button class="btn-large waves-effect waves-light blue" data-bind="text: teamBNames().join(' i '), click: winTeamB"></button>
 	      		</div>
 	      		<br><br><br><br>
 	      		<div class="col s12">
@@ -127,6 +128,11 @@
 					}
 					return true
 				}
+				self.backToMain = function(){
+					self.playView(false)	
+					self.chooseView(false)
+					self.mainView(true)
+				}
 				self.chooseTeams = function(){
 					self.mainView(false)
 					self.playView(false)	
@@ -151,6 +157,7 @@
 							player.points += 1
 						}
 					})
+					self.gratulationRouting(self.teamANames)
 				}
 				self.winTeamB = function(){
 					self.data().forEach(function(player){
@@ -158,6 +165,7 @@
 							player.points += 1
 						}
 					})
+					self.gratulationRouting(self.teamANames)
 				}
 				self.winDraw = function(item){
 					console.log(item.teamANames)
