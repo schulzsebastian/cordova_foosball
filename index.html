@@ -88,6 +88,20 @@
 	      		</div>
 	    	</div>
     	</div>
+    	<div class="section container" data-bind="visible: gratulationView">
+			<h2 class="header center blue-text">Gratulacje!</h1>
+			<div class="row center">
+				<div class="col s12">
+					<h5 class="header light">Wygrani:<br><strong data-bind="text: winnerNames().join(' i ')"></strong></h5>
+				</div>
+				<br><br><br><br><br>
+
+				<br><br><br><br><br>
+				<div class="col s12">
+		    		<button class="btn-large waves-effect waves-light blue" data-bind="text: 'Zagraj jeszcze raz!', click: chooseTeams"></button>
+	      		</div>
+	    	</div>
+    	</div>
   		<!-- Main function -->
 		<script>
 			function indexModel(){
@@ -108,7 +122,8 @@
 				self.chooseView = ko.observable(false)
 				self.playView = ko.observable(false)
 				self.playButton = ko.observable(false)
-				self.winner = ko.observable()
+				self.winnerNames = ko.observableArray()
+				self.gratulationView = ko.observable(false)
 
 				self.nextTeam = function(){
 					self.checkTeams()
@@ -131,16 +146,19 @@
 				self.backToMain = function(){
 					self.playView(false)	
 					self.chooseView(false)
+					self.gratulationView(false)
 					self.mainView(true)
 				}
 				self.chooseTeams = function(){
 					self.mainView(false)
-					self.playView(false)	
+					self.playView(false)
+					self.gratulationView(false)
 					self.chooseView(true)
 				}
 				self.playTeams = function(){
 					self.mainView(false)
 					self.chooseView(false)
+					self.gratulationView(false)
 					self.playView(true)
 					self.teamANames([])
 					self.teamBNames([])
@@ -151,13 +169,20 @@
 						self.teamBNames.push(player.name)
 					})
 				}
+				self.gratulationRouting = function(team){
+					self.mainView(false)
+					self.chooseView(false)
+					self.playView(false)
+					self.gratulationView(true)
+					self.winnerNames(team)
+				}
 				self.winTeamA = function(){
 					self.data().forEach(function(player){
 						if(self.teamANames.indexOf(player.name) > -1){
 							player.points += 1
 						}
 					})
-					self.gratulationRouting(self.teamANames)
+					self.gratulationRouting(self.teamANames())
 				}
 				self.winTeamB = function(){
 					self.data().forEach(function(player){
@@ -165,7 +190,7 @@
 							player.points += 1
 						}
 					})
-					self.gratulationRouting(self.teamANames)
+					self.gratulationRouting(self.teamBNames())
 				}
 				self.winDraw = function(item){
 					console.log(item.teamANames)
