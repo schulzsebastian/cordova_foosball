@@ -19,9 +19,9 @@
 		<div class="navbar-fixed">
 			<nav class="blue" role="navigation">
 				<ul id="slide-out" class="side-nav">
-					<li><a href="#">Ranking</a></li>
-					<li><a href="#">Lista graczy</a></li>
-					<li><a href="#">Dodaj gracza</a></li>
+					<li><a data-bind="click: backToMain">Home</a></li>
+					<li><a data-bind="click: rankRouting">Ranking</a></li>
+					<li><a>Dodaj gracza</a></li>
 				</ul>
 				<a href="#" data-activates="slide-out" class="button-collapse show-on-large">
 					<i class="material-icons" style="padding-left:10px">menu</i>
@@ -108,6 +108,26 @@
 				</div>
 			</div>
 		</div>
+		<div class="section container" data-bind="visible: rankView">
+			<h2 class="header center blue-text">Ranking</h1>
+			<div class="row center">
+				<div class="col s12" style="padding-left:30px">
+				<!-- ko foreach: data -->
+					<div class="col s6">
+					<h5 class="header light" data-bind="text: name"></h5>
+					</div>
+					<div class="col s6">
+					<h5 class="header light" data-bind="text: points"></h5>
+					</div>
+				<!-- /ko -->
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s12 center">
+					<button class="btn-large waves-effect waves-light red" data-bind="text: 'Cofnij', click: backToMain"></button>
+				</div>
+			</div>
+		</div>
 		<!-- Main function -->
 		<script>
 			function indexModel(){
@@ -130,6 +150,7 @@
 				self.playButton = ko.observable(false)
 				self.winnerNames = ko.observableArray()
 				self.gratulationView = ko.observable(false)
+				self.rankView = ko.observable(false)
 
 				self.nextTeam = function(){
 					self.checkTeams()
@@ -153,18 +174,21 @@
 					self.playView(false)	
 					self.chooseView(false)
 					self.gratulationView(false)
+					self.rankView(false)
 					self.mainView(true)
 				}
 				self.chooseTeams = function(){
 					self.mainView(false)
 					self.playView(false)
 					self.gratulationView(false)
+					self.rankView(false)
 					self.chooseView(true)
 				}
 				self.playTeams = function(){
 					self.mainView(false)
 					self.chooseView(false)
 					self.gratulationView(false)
+					self.rankView(false)
 					self.playView(true)
 					self.teamANames([])
 					self.teamBNames([])
@@ -179,8 +203,16 @@
 					self.mainView(false)
 					self.chooseView(false)
 					self.playView(false)
+					self.rankView(false)
 					self.gratulationView(true)
 					self.winnerNames(team)
+				}
+				self.rankRouting = function(){
+					self.mainView(false)
+					self.chooseView(false)
+					self.playView(false)
+					self.gratulationView(false)
+					self.rankView(true)
 				}
 				self.winTeamA = function(){
 					self.data().forEach(function(player){
@@ -207,7 +239,7 @@
 		</script>
 		<!-- jQuery -->
 		<script>
-			$('.button-collapse').sideNav();
+			$('.button-collapse').sideNav({closeOnClick:true});
 		</script>
 	</body>
 </html>
