@@ -21,7 +21,7 @@
 				<ul id="slide-out" class="side-nav">
 					<li><a data-bind="click: backToMain">Home</a></li>
 					<li><a data-bind="click: rankRouting">Ranking</a></li>
-					<li><a>Dodaj gracza</a></li>
+					<li><a data-bind="click: addPlayerRouting">Dodaj gracza</a></li>
 				</ul>
 				<a href="#" data-activates="slide-out" class="button-collapse show-on-large">
 					<i class="material-icons" style="padding-left:10px">menu</i>
@@ -128,6 +128,23 @@
 				</div>
 			</div>
 		</div>
+		<div class="section container" data-bind="visible: addPlayerView">
+			<h3 class="header center blue-text">Dodaj gracza</h3>
+			<br>
+			<div class="row center">
+				<div class="input-field col s12">
+					<input id="name" type="text" class="validate" data-bind="value: newPlayer">
+         			 <label for="name">Imię</label>
+				</div>
+			</div>
+			<br><br>
+			<div class="row center">
+				<div class="col s12">
+					<button class="btn-large waves-effect waves-light blue" data-bind="click: addPlayer, visible: newPlayer">Graj!</button>
+					<button class="btn-large waves-effect waves-light red" data-bind="click: backToMain">Cofnij</button>
+				</div>
+			</div>
+		</div>
 		<!-- Main function -->
 		<script>
 			function indexModel(){
@@ -151,6 +168,8 @@
 				self.winnerNames = ko.observableArray()
 				self.gratulationView = ko.observable(false)
 				self.rankView = ko.observable(false)
+				self.addPlayerView = ko.observable(false)
+				self.newPlayer = ko.observable()
 
 				self.nextTeam = function(){
 					self.checkTeams()
@@ -175,6 +194,7 @@
 					self.chooseView(false)
 					self.gratulationView(false)
 					self.rankView(false)
+					self.addPlayerView(false)
 					self.mainView(true)
 				}
 				self.chooseTeams = function(){
@@ -182,6 +202,7 @@
 					self.playView(false)
 					self.gratulationView(false)
 					self.rankView(false)
+					self.addPlayerView(false)
 					self.chooseView(true)
 				}
 				self.playTeams = function(){
@@ -189,6 +210,7 @@
 					self.chooseView(false)
 					self.gratulationView(false)
 					self.rankView(false)
+					self.addPlayerView(false)
 					self.playView(true)
 					self.teamANames([])
 					self.teamBNames([])
@@ -204,6 +226,7 @@
 					self.chooseView(false)
 					self.playView(false)
 					self.rankView(false)
+					self.addPlayerView(false)
 					self.gratulationView(true)
 					self.winnerNames(team)
 				}
@@ -212,7 +235,25 @@
 					self.chooseView(false)
 					self.playView(false)
 					self.gratulationView(false)
+					self.addPlayerView(false)
 					self.rankView(true)
+				}
+				self.addPlayerRouting = function(){
+					self.mainView(false)
+					self.chooseView(false)
+					self.playView(false)
+					self.gratulationView(false)
+					self.rankView(false)
+					self.addPlayerView(true)
+				}
+				self.addPlayer = function(){
+					var id = -1;
+					self.data().forEach(function(player){
+						if(player.id>id){
+							id = player.id
+						}
+					})
+					self.data.push({id:id+1, name:self.newPlayer(), points:ko.observable(0)})
 				}
 				self.winTeamA = function(){
 					self.data().forEach(function(player){
