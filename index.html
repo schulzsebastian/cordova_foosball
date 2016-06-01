@@ -134,10 +134,10 @@
 				var self = this;
 
 				self.data = ko.observableArray(
-				[{id:1,name:'Aleksandra', points:0},
-				{id:2, name:'Łukasz', points:0},
-				{id:3, name:'Wojciech', points:0},
-				{id:4, name:'Sebastian', points:0}])
+				[{id:1,name:'Aleksandra', points: ko.observable(0)},
+				{id:2, name:'Łukasz', points: ko.observable(0)},
+				{id:3, name:'Wojciech', points: ko.observable(0)},
+				{id:4, name:'Sebastian', points: ko.observable(0)}])
 
 				self.teamA = ko.observableArray()
 				self.teamB = ko.observableArray()
@@ -171,7 +171,7 @@
 					return true
 				}
 				self.backToMain = function(){
-					self.playView(false)	
+					self.playView(false)
 					self.chooseView(false)
 					self.gratulationView(false)
 					self.rankView(false)
@@ -217,7 +217,9 @@
 				self.winTeamA = function(){
 					self.data().forEach(function(player){
 						if(self.teamANames.indexOf(player.name) > -1){
-							player.points += 1
+                            var pts = player.points()
+                            pts +=1
+							player.points(pts)
 						}
 					})
 					self.gratulationRouting(self.teamANames())
@@ -225,7 +227,9 @@
 				self.winTeamB = function(){
 					self.data().forEach(function(player){
 						if(self.teamBNames.indexOf(player.name) > -1){
-							player.points += 1
+                            var pts = player.points()
+                            pts +=1
+							player.points(pts)
 						}
 					})
 					self.gratulationRouting(self.teamBNames())
@@ -243,26 +247,3 @@
 		</script>
 	</body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
