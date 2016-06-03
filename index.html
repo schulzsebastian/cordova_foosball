@@ -16,7 +16,6 @@
 		<script src="js/alertify.js"></script>
 		<!-- Other -->
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 	</head>
 	<body>
 		<div class="navbar-fixed">
@@ -137,7 +136,7 @@
 			<div class="row center">
 				<div class="input-field col s12">
 					<input id="name" type="text" class="validate" data-bind="value: newPlayer">
-         			 <label for="name">Imię</label>
+					 <label for="name">Imię</label>
 				</div>
 			</div>
 			<br><br>
@@ -153,11 +152,16 @@
 			function indexModel(){
 				var self = this;
 
-				self.data = ko.observableArray(
-				[{id:1,name:'Aleksandra', points: ko.observable(0)},
-				{id:2, name:'Łukasz', points: ko.observable(0)},
-				{id:3, name:'Wojciech', points: ko.observable(0)},
-				{id:4, name:'Sebastian', points: ko.observable(0)}])
+				self.data = ko.observableArray()
+				self.getData = function() {
+					$.getJSON('http://127.0.0.1:5000/getplayers',{},function(data){
+						self.data([])
+						data.data.forEach(function(player){
+							self.data.push(player)
+						})
+						console.log(self.data())
+					})
+				}
 
 				self.teamA = ko.observableArray()
 				self.teamB = ko.observableArray()
@@ -201,6 +205,9 @@
 					self.mainView(true)
 				}
 				self.chooseTeams = function(){
+					self.getData()
+					self.teamA([])
+					self.teamB([])
 					self.mainView(false)
 					self.playView(false)
 					self.gratulationView(false)
@@ -234,6 +241,7 @@
 					self.winnerNames(team)
 				}
 				self.rankRouting = function(){
+					self.getData()
 					self.mainView(false)
 					self.chooseView(false)
 					self.playView(false)
@@ -263,9 +271,19 @@
 				self.winTeamA = function(){
 					self.data().forEach(function(player){
 						if(self.teamANames.indexOf(player.name) > -1){
-                            var pts = player.points()
-                            pts +=1
-							player.points(pts)
+							var payload = {'pid':player.id, 'points':1}
+							$.ajax({
+								type: 'POST',
+								url: 'http://127.0.0.1:5000/addpoints',
+								data: JSON.stringify(payload),
+								contentType: 'application/json',
+								success: function(data) {
+									console.log('ok')
+								},
+								error: function(data) {
+									console.log('nie ok')
+								}
+							})
 						}
 					})
 					self.gratulationRouting(self.teamANames())
@@ -273,9 +291,19 @@
 				self.winTeamB = function(){
 					self.data().forEach(function(player){
 						if(self.teamBNames.indexOf(player.name) > -1){
-                            var pts = player.points()
-                            pts +=1
-							player.points(pts)
+							var payload = {'pid':player.id, 'points':1}
+							$.ajax({
+								type: 'POST',
+								url: 'http://127.0.0.1:5000/addpoints',
+								data: JSON.stringify(payload),
+								contentType: 'application/json',
+								success: function(data) {
+									console.log('ok')
+								},
+								error: function(data) {
+									console.log('nie ok')
+								}
+							})
 						}
 					})
 					self.gratulationRouting(self.teamBNames())
