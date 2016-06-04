@@ -154,7 +154,7 @@
 
 				self.data = ko.observableArray()
 				self.getData = function() {
-					$.getJSON('http://127.0.0.1:5000/getplayers',{},function(data){
+					$.getJSON('http://foosball.schulzsebastian.com/getplayers',{},function(data){
 						self.data([])
 						data.data.forEach(function(player){
 							self.data.push(player)
@@ -274,7 +274,7 @@
 							var payload = {'pid':player.id, 'points':1}
 							$.ajax({
 								type: 'POST',
-								url: 'http://127.0.0.1:5000/addpoints',
+								url: 'http://foosball.schulzsebastian.com/addpoints',
 								data: JSON.stringify(payload),
 								contentType: 'application/json',
 								success: function(data) {
@@ -294,7 +294,7 @@
 							var payload = {'pid':player.id, 'points':1}
 							$.ajax({
 								type: 'POST',
-								url: 'http://127.0.0.1:5000/addpoints',
+								url: 'http://foosball.schulzsebastian.com/addpoints',
 								data: JSON.stringify(payload),
 								contentType: 'application/json',
 								success: function(data) {
