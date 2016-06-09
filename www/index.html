@@ -4,7 +4,10 @@
 		<title>Foosball</title>
 		<!-- Meta -->
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+        <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; media-src *; img-src * data:;">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 		<!-- CSS -->
 		<link rel="stylesheet" href="css/materialize.min.css" media="screen,projection">
 		<link rel="stylesheet" href="css/alertify.css">
@@ -319,5 +322,6 @@
 		<script>
 			$('.button-collapse').sideNav({closeOnClick:true});
 		</script>
+		<script type="text/javascript" src="cordova.js"></script>
 	</body>
 </html>
