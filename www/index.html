@@ -1,327 +1,359 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Foosball</title>
-		<!-- Meta -->
-		<meta charset="utf-8">
-        <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; media-src *; img-src * data:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-		<!-- CSS -->
-		<link rel="stylesheet" href="css/materialize.min.css" media="screen,projection">
-		<link rel="stylesheet" href="css/alertify.css">
-		<link rel="stylesheet" href="css/bootstrap.css">
-		<!-- JS -->
-		<script src="js/jquery-2.2.4.min.js"></script>
-		<script src="js/knockout-3.4.0.js"></script>
-		<script src="js/materialize.js"></script>
-		<script src="js/alertify.js"></script>
-		<!-- Other -->
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	</head>
-	<body>
-		<div class="navbar-fixed">
-			<nav class="blue" role="navigation">
-				<ul id="slide-out" class="side-nav">
-					<li><a data-bind="click: backToMain">Home</a></li>
-					<li><a data-bind="click: rankRouting">Ranking</a></li>
-					<li><a data-bind="click: addPlayerRouting">Dodaj gracza</a></li>
-				</ul>
-				<a href="#" data-activates="slide-out" class="button-collapse show-on-large">
-					<i class="material-icons" style="padding-left:10px">menu</i>
-				</a>
-			</nav>
-		</div>
-		<div class="section contatiner" data-bind="visible: mainView">
-			<h1 class="header center blue-text">Foosball</h1>
-			<div class="row center">
-				<div class="col s12">
-					<h5 class="header col s12 light">Śmieszne demotywujące zdanie</h5>
-				</div>
-				<br><br><br><br><br>
-				<div class="col s12">
-					<button class="btn-large waves-effect waves-light blue" data-bind="click: chooseTeams">Zagraj mecz</button>
-				</div>
-			</div>
-		</div>
-		<div class="section container" data-bind="visible: chooseView">
-			<br><br>
-			<div class="row" style="padding-left:30px">
-				<div class="col s6">
-					<!-- ko foreach: data -->
-					<input type="checkbox" data-bind="attr: { id: 'a' + id }, checkedValue: $data, checked: $root.teamA, click: $root.nextTeam"/>
-					<label data-bind="attr: { for: 'a' + id }, text: name"></label><br>
-					<!-- /ko -->
-				</div>
-				<div class="col s6" data-bind="visible: secondTeamView">
-					<!-- ko foreach: data -->
-						<!-- ko if: $root.teamA.indexOf($data) < 0 -->
-						<input type="checkbox" data-bind="attr: { id: 'b' + id }, checkedValue: $data, checked: $root.teamB, click: $root.checkTeams"/>
-						<label data-bind="attr: { for: 'b' + id }, text: name"></label><br>
-						<!-- /ko -->
-					<!-- /ko -->
-				</div>
-			</div>
-			<br><br><br><br><br><br>
-			<div class="row center">
-				 <button class="btn-large waves-effect waves-light blue" data-bind="click: playTeams, visible: playButton">Graj!</button>
-				 <button class="btn-large waves-effect waves-light red" data-bind="click: backToMain">Cofnij</button>
-			</div>
-		</div>
-		<div class="section container" data-bind="visible: playView">
-			<h2 class="header center blue-text">Powodzenia!</h1>
-			<div class="row center">
-				<div class="col s12">
-					<h5 class="header light">A po grze proszę uczciwie wybrać zwycięzcę</h5>
-				</div>
-				<br><br><br><br><br>
-				<div class="col s12">
-					<button class="btn-large waves-effect waves-light blue" data-bind="text: teamANames().join(' i '), click: winTeamA"></button>
-				</div>
-				<br><br><br><br>
-				<div class="col s12">
-					<button class="btn-large waves-effect waves-light blue" data-bind="text: 'Remis', click: winDraw"></button>
-				</div>
-				<br><br><br><br>
-				<div class="col s12">
-					<button class="btn-large waves-effect waves-light blue" data-bind="text: teamBNames().join(' i '), click: winTeamB"></button>
-				</div>
-				<br><br><br><br>
-				<div class="col s12">
-					<button class="btn-large waves-effect waves-light red" data-bind="text: 'Cofnij', click: chooseTeams"></button>
-				</div>
-			</div>
-		</div>
-		<div class="section container" data-bind="visible: gratulationView">
-			<h2 class="header center blue-text">Gratulacje!</h1>
-			<div class="row center">
-				<div class="col s12">
-				<!-- ko if: winnerNames().length > 1 -->
-					<h5 class="header light">Zwycięzcy:</h5>
-				<!-- /ko -->
-				<!-- ko ifnot: winnerNames().length > 1 -->
-					<h5 class="header light">Zwycięzca:</h5>
-				<!-- /ko -->
-				<br><br><h5><strong data-bind="text: winnerNames().join(' i ')"></strong></h5>
-				</div>
-				<br><br><br><br><br>
+  <head>
+    <title>Foosball</title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; media-src *; img-src * data:;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/materialize.min.css" media="screen,projection">
+    <link rel="stylesheet" href="css/alertify.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- JS -->
+    <script src="js/jquery-2.2.4.min.js"></script>
+    <script src="js/knockout-3.4.0.js"></script>
+    <script src="js/materialize.js"></script>
+    <script src="js/alertify.js"></script>
+    <!-- Other -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+    <div class="navbar-fixed">
+      <nav class="blue" role="navigation">
+        <ul id="slide-out" class="side-nav">
+          <li><a data-bind="click: backToMain">Home</a></li>
+          <li><a data-bind="click: rankRouting">Ranking</a></li>
+          <li><a data-bind="click: addPlayerRouting">Dodaj gracza</a></li>
+        </ul>
+        <a href="#" data-activates="slide-out" class="button-collapse show-on-large">
+          <i class="material-icons" style="padding-left:10px">menu</i>
+        </a>
+      </nav>
+    </div>
+    <div class="section contatiner" data-bind="visible: mainView">
+      <h1 class="header center blue-text">Foosball</h1>
+      <div class="row center">
+        <div class="col s12">
+          <h5 class="header col s12 light">Śmieszne demotywujące zdanie</h5>
+        </div>
+        <br><br><br><br><br>
+        <div class="col s12">
+          <button class="btn-large waves-effect waves-light blue" data-bind="click: chooseTeams">Zagraj mecz</button>
+        </div>
+      </div>
+    </div>
+    <div class="section container" data-bind="visible: chooseView">
+      <br><br>
+      <div class="row" style="padding-left:30px">
+        <div class="col s6">
+          <!-- ko foreach: data -->
+          <input type="checkbox" data-bind="attr: { id: 'a' + id }, checkedValue: $data, checked: $root.teamA, click: $root.nextTeam"/>
+          <label data-bind="attr: { for: 'a' + id }, text: name"></label><br>
+          <!-- /ko -->
+        </div>
+        <div class="col s6" data-bind="visible: secondTeamView">
+          <!-- ko foreach: data -->
+            <!-- ko if: $root.teamA.indexOf($data) < 0 -->
+            <input type="checkbox" data-bind="attr: { id: 'b' + id }, checkedValue: $data, checked: $root.teamB, click: $root.checkTeams"/>
+            <label data-bind="attr: { for: 'b' + id }, text: name"></label><br>
+            <!-- /ko -->
+          <!-- /ko -->
+        </div>
+      </div>
+      <br><br><br><br><br><br>
+      <div class="row center">
+         <button class="btn-large waves-effect waves-light blue" data-bind="click: playTeams, visible: playButton">Graj!</button>
+         <button class="btn-large waves-effect waves-light red" data-bind="click: backToMain">Cofnij</button>
+      </div>
+    </div>
+    <div class="section container" data-bind="visible: playView">
+        <h2 class="header center blue-text">Powodzenia!</h1>
+        <div class="row center">
+            <div class="col s12">
+                <h5 class="header light">A po grze proszę uczciwie wybrać zwycięzcę</h5>
+            </div>
+            <br><br><br><br><br>
+            <div class="col s12">
+                <button class="btn-large waves-effect waves-light blue" data-bind="text: teamANames().join(' i '), click: winTeamA"></button>
+            </div>
+            <br><br><br><br>
+            <div class="col s12">
+                <button class="btn-large waves-effect waves-light blue" data-bind="text: 'Remis', click: winDraw"></button>
+            </div>
+            <br><br><br><br>
+            <div class="col s12">
+                <button class="btn-large waves-effect waves-light blue" data-bind="text: teamBNames().join(' i '), click: winTeamB"></button>
+            </div>
+            <br><br><br><br>
+            <div class="col s12">
+                <button class="btn-large waves-effect waves-light red" data-bind="text: 'Cofnij', click: chooseTeams"></button>
+            </div>
+        </div>
+    </div>
+    <div class="section container" data-bind="visible: gratulationView">
+        <h2 class="header center blue-text">Gratulacje!</h1>
+        <div class="row center">
+            <div class="col s12">
+            <!-- ko if: winnerNames().length > 1 -->
+                <h5 class="header light">Zwycięzcy:</h5>
+            <!-- /ko -->
+            <!-- ko ifnot: winnerNames().length > 1 -->
+                <h5 class="header light">Zwycięzca:</h5>
+            <!-- /ko -->
+            <br><br><h5><strong data-bind="text: winnerNames().join(' i ')"></strong></h5>
+            </div>
+            <br><br><br><br><br>
 
-				<br><br><br><br><br>
-				<div class="col s12">
-					<button class="btn-large waves-effect waves-light blue" data-bind="text: 'Zagraj jeszcze raz!', click: backToMain"></button>
-				</div>
-			</div>
-		</div>
-		<div class="section container" data-bind="visible: rankView">
-			<h2 class="header center blue-text">Ranking</h1>
-			<div class="row center">
-				<div class="col s12" style="padding-left:30px">
-				<!-- ko foreach: data -->
-					<div class="col s6">
-					<h5 class="header light" data-bind="text: name"></h5>
-					</div>
-					<div class="col s6">
-					<h5 class="header light" data-bind="text: points"></h5>
-					</div>
-				<!-- /ko -->
-				</div>
-			</div>
-			<div class="row">
-				<div class="col s12 center">
-					<button class="btn-large waves-effect waves-light red" data-bind="text: 'Cofnij', click: backToMain"></button>
-				</div>
-			</div>
-		</div>
-		<div class="section container" data-bind="visible: addPlayerView">
-			<h3 class="header center blue-text">Dodaj gracza</h3>
-			<br>
-			<div class="row center">
-				<div class="input-field col s12">
-					<input id="name" type="text" class="validate" data-bind="value: newPlayer">
-					 <label for="name">Imię</label>
-				</div>
-			</div>
-			<br><br>
-			<div class="row center">
-				<div class="col s12">
-					<button class="btn-large waves-effect waves-light blue" data-bind="click: addPlayer, visible: newPlayer">Dodaj</button>
-					<button class="btn-large waves-effect waves-light red" data-bind="click: backToMain">Cofnij</button>
-				</div>
-			</div>
-		</div>
-		<!-- Main function -->
-		<script>
-			function indexModel(){
-				var self = this;
+            <br><br><br><br><br>
+            <div class="col s12">
+                <button class="btn-large waves-effect waves-light blue" data-bind="text: 'Zagraj jeszcze raz!', click: backToMain"></button>
+            </div>
+        </div>
+    </div>
+    <div class="section container" data-bind="visible: rankView">
+        <h2 class="header center blue-text">Ranking</h1>
+        <div class="row center">
+            <div class="col s12" style="padding-left:30px">
+            <!-- ko foreach: data -->
+                <div class="col s6">
+                <h5 class="header light" data-bind="text: name"></h5>
+                </div>
+                <div class="col s6">
+                <h5 class="header light" data-bind="text: points"></h5>
+                </div>
+            <!-- /ko -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 center">
+                <button class="btn-large waves-effect waves-light red" data-bind="text: 'Cofnij', click: backToMain"></button>
+            </div>
+        </div>
+    </div>
+    <div class="section container" data-bind="visible: addPlayerView">
+        <h3 class="header center blue-text">Dodaj gracza</h3>
+        <br>
+        <div class="row center">
+            <div class="input-field col s12">
+                <input id="name" type="text" class="validate" data-bind="value: newPlayer">
+                 <label for="name">Imię</label>
+            </div>
+        </div>
+        <br><br>
+        <div class="row center">
+            <div class="col s12">
+                <button class="btn-large waves-effect waves-light blue" data-bind="click: addPlayer, visible: newPlayer">Dodaj</button>
+                <button class="btn-large waves-effect waves-light red" data-bind="click: backToMain">Cofnij</button>
+            </div>
+        </div>
+    </div>
+    <!-- Main function -->
+    <script>
+      function indexModel(){
+          var self = this;
 
-				self.data = ko.observableArray()
-				self.getData = function() {
-					$.getJSON('http://foosball.schulzsebastian.com/getplayers',{},function(data){
-						self.data([])
-						data.data.forEach(function(player){
-							self.data.push(player)
-						})
-						console.log(self.data())
-					})
-				}
+          self.data = ko.observableArray()
+          self.getData = function() {
+              $.getJSON('http://foosball.schulzsebastian.com/getplayers',{},function(data){
+                  self.data([])
+                  data.data.forEach(function(player){
+                      self.data.push(player)
+                  })
+                  console.log(self.data())
+              })
+          }
 
-				self.teamA = ko.observableArray()
-				self.teamB = ko.observableArray()
-				self.teamANames = ko.observableArray()
-				self.teamBNames = ko.observableArray()
-				self.secondTeamView = ko.observable(false)
-				self.mainView = ko.observable(true)
-				self.chooseView = ko.observable(false)
-				self.playView = ko.observable(false)
-				self.playButton = ko.observable(false)
-				self.winnerNames = ko.observableArray()
-				self.gratulationView = ko.observable(false)
-				self.rankView = ko.observable(false)
-				self.addPlayerView = ko.observable(false)
-				self.newPlayer = ko.observable()
+          self.teamA = ko.observableArray()
+          self.teamB = ko.observableArray()
+          self.teamANames = ko.observableArray()
+          self.teamBNames = ko.observableArray()
+          self.secondTeamView = ko.observable(false)
+          self.mainView = ko.observable(true)
+          self.chooseView = ko.observable(false)
+          self.playView = ko.observable(false)
+          self.playButton = ko.observable(false)
+          self.winnerNames = ko.observableArray()
+          self.gratulationView = ko.observable(false)
+          self.rankView = ko.observable(false)
+          self.addPlayerView = ko.observable(false)
+          self.newPlayer = ko.observable()
 
-				self.nextTeam = function(){
-					self.checkTeams()
-					if(self.teamA().length > 0){
-						self.secondTeamView(true)
+          self.nextTeam = function(){
+              self.checkTeams()
+              if(self.teamA().length > 0){
+                  self.secondTeamView(true)
 
-					}else{
-						self.secondTeamView(false)
-					}
-					return true
-				}
-				self.checkTeams = function(){
-					if(self.teamA().length > 0 && self.teamB().length >0){
-						self.playButton(true)
-					}else{
-						self.playButton(false)
-					}
-					return true
-				}
-				self.backToMain = function(){
-					self.playView(false)
-					self.chooseView(false)
-					self.gratulationView(false)
-					self.rankView(false)
-					self.addPlayerView(false)
-					self.mainView(true)
-				}
-				self.chooseTeams = function(){
-					self.getData()
-					self.teamA([])
-					self.teamB([])
-					self.mainView(false)
-					self.playView(false)
-					self.gratulationView(false)
-					self.rankView(false)
-					self.addPlayerView(false)
-					self.chooseView(true)
-				}
-				self.playTeams = function(){
-					self.mainView(false)
-					self.chooseView(false)
-					self.gratulationView(false)
-					self.rankView(false)
-					self.addPlayerView(false)
-					self.playView(true)
-					self.teamANames([])
-					self.teamBNames([])
-					self.teamA().forEach(function(player){
-						self.teamANames.push(player.name)
-					})
-					self.teamB().forEach(function(player){
-						self.teamBNames.push(player.name)
-					})
-				}
-				self.gratulationRouting = function(team){
-					self.mainView(false)
-					self.chooseView(false)
-					self.playView(false)
-					self.rankView(false)
-					self.addPlayerView(false)
-					self.gratulationView(true)
-					self.winnerNames(team)
-				}
-				self.rankRouting = function(){
-					self.getData()
-					self.mainView(false)
-					self.chooseView(false)
-					self.playView(false)
-					self.gratulationView(false)
-					self.addPlayerView(false)
-					self.rankView(true)
-				}
-				self.addPlayerRouting = function(){
-					self.mainView(false)
-					self.chooseView(false)
-					self.playView(false)
-					self.gratulationView(false)
-					self.rankView(false)
-					self.addPlayerView(true)
-				}
-				self.addPlayer = function(){
-					var id = -1;
-					self.data().forEach(function(player){
-						if(player.id>id){
-							id = player.id
-						}
-					})
-					self.data.push({id:id+1, name:self.newPlayer(), points:ko.observable(0)})
-					alertify.success('Dodano gracza')
-					self.newPlayer(undefined)
-				}
-				self.winTeamA = function(){
-					self.data().forEach(function(player){
-						if(self.teamANames.indexOf(player.name) > -1){
-							var payload = {'pid':player.id, 'points':1}
-							$.ajax({
-								type: 'POST',
-								url: 'http://foosball.schulzsebastian.com/addpoints',
-								data: JSON.stringify(payload),
-								contentType: 'application/json',
-								success: function(data) {
-									console.log('ok')
-								},
-								error: function(data) {
-									console.log('nie ok')
-								}
-							})
-						}
-					})
-					self.gratulationRouting(self.teamANames())
-				}
-				self.winTeamB = function(){
-					self.data().forEach(function(player){
-						if(self.teamBNames.indexOf(player.name) > -1){
-							var payload = {'pid':player.id, 'points':1}
-							$.ajax({
-								type: 'POST',
-								url: 'http://foosball.schulzsebastian.com/addpoints',
-								data: JSON.stringify(payload),
-								contentType: 'application/json',
-								success: function(data) {
-									console.log('ok')
-								},
-								error: function(data) {
-									console.log('nie ok')
-								}
-							})
-						}
-					})
-					self.gratulationRouting(self.teamBNames())
-				}
-				self.winDraw = function(item){
-					console.log(item.teamANames)
-				}
-			}
-			var vm = new indexModel();
-			ko.applyBindings(vm);
-		</script>
-		<!-- jQuery -->
-		<script>
-			$('.button-collapse').sideNav({closeOnClick:true});
-		</script>
-		<script type="text/javascript" src="cordova.js"></script>
-	</body>
+              }else{
+                  self.secondTeamView(false)
+              }
+              return true
+          }
+          self.checkTeams = function(){
+              if(self.teamA().length > 0 && self.teamB().length >0){
+                  self.playButton(true)
+              }else{
+                  self.playButton(false)
+              }
+              return true
+          }
+          self.backToMain = function(){
+              self.playView(false)
+              self.chooseView(false)
+              self.gratulationView(false)
+              self.rankView(false)
+              self.addPlayerView(false)
+              self.mainView(true)
+          }
+          self.chooseTeams = function(){
+              self.getData()
+              self.teamA([])
+              self.teamB([])
+              self.mainView(false)
+              self.playView(false)
+              self.gratulationView(false)
+              self.rankView(false)
+              self.addPlayerView(false)
+              self.chooseView(true)
+          }
+          self.playTeams = function(){
+              self.mainView(false)
+              self.chooseView(false)
+              self.gratulationView(false)
+              self.rankView(false)
+              self.addPlayerView(false)
+              self.playView(true)
+              self.teamANames([])
+              self.teamBNames([])
+              self.teamA().forEach(function(player){
+                  self.teamANames.push(player.name)
+              })
+              self.teamB().forEach(function(player){
+                  self.teamBNames.push(player.name)
+              })
+          }
+          self.gratulationRouting = function(team){
+              self.mainView(false)
+              self.chooseView(false)
+              self.playView(false)
+              self.rankView(false)
+              self.addPlayerView(false)
+              self.gratulationView(true)
+              self.winnerNames(team)
+          }
+          self.rankRouting = function(){
+              self.getData()
+              self.mainView(false)
+              self.chooseView(false)
+              self.playView(false)
+              self.gratulationView(false)
+              self.addPlayerView(false)
+              self.rankView(true)
+          }
+          self.addPlayerRouting = function(){
+              self.mainView(false)
+              self.chooseView(false)
+              self.playView(false)
+              self.gratulationView(false)
+              self.rankView(false)
+              self.addPlayerView(true)
+          }
+          self.addPlayer = function(){
+              var id = -1;
+              self.data().forEach(function(player){
+                  if(player.id>id){
+                      id = player.id
+                  }
+              })
+              self.data.push({id:id+1, name:self.newPlayer(), points:ko.observable(0)})
+              alertify.success('Dodano gracza')
+              self.newPlayer(undefined)
+          }
+          self.winTeamA = function(){
+              self.data().forEach(function(player){
+                var payload = undefined
+                if(self.teamANames.indexOf(player.name) > -1){
+                  payload = {'pid':player.id, 'points':3}
+                }else if(self.teamBNames.indexOf(player.name) > -1){
+                  payload = {'pid':player.id, 'points':1}
+                }
+                if(payload){
+                  $.ajax({
+                    type: 'POST',
+                    url: 'http://foosball.schulzsebastian.com/addpoints',
+                    data: JSON.stringify(payload),
+                    contentType: 'application/json',
+                    success: function(data) {
+                      console.log('ok')
+                    },
+                    error: function(data) {
+                      console.log('nie ok')
+                    }
+                  })
+                }
+              })
+              self.gratulationRouting(self.teamANames())
+          }
+          self.winTeamB = function(){
+              self.data().forEach(function(player){
+                var payload = undefined
+                if(self.teamBNames.indexOf(player.name) > -1){
+                  payload = {'pid':player.id, 'points':3}
+                }else if(self.teamANames.indexOf(player.name) > -1){
+                  payload = {'pid':player.id, 'points':1}
+                }
+                if(payload){
+                  $.ajax({
+                    type: 'POST',
+                    url: 'http://foosball.schulzsebastian.com/addpoints',
+                    data: JSON.stringify(payload),
+                    contentType: 'application/json',
+                    success: function(data) {
+                      console.log('ok')
+                    },
+                    error: function(data) {
+                      console.log('nie ok')
+                    }
+                  })
+                }
+              })
+              self.gratulationRouting(self.teamBNames())
+          }
+          self.winDraw = function(item){
+            var players = []
+            self.data().forEach(function(player){
+              var payload = undefined
+              if(self.teamBNames.indexOf(player.name) > -1 || self.teamANames.indexOf(player.name) > -1){
+                payload = {'pid':player.id, 'points':2}
+                players.push(player.name)
+              }
+              if(payload){
+                $.ajax({
+                  type: 'POST',
+                  url: 'http://foosball.schulzsebastian.com/addpoints',
+                  data: JSON.stringify(payload),
+                  contentType: 'application/json',
+                  success: function(data) {
+                    console.log('ok')
+                  },
+                  error: function(data) {
+                    console.log('nie ok')
+                  }
+                })
+              }
+            })
+            self.gratulationRouting(players)  
+          }
+      }
+      var vm = new indexModel();
+      ko.applyBindings(vm);
+    </script>
+    <!-- jQuery -->
+    <script>
+        $('.button-collapse').sideNav({closeOnClick:true});
+    </script>
+    <script type="text/javascript" src="cordova.js"></script>
+  </body>
 </html>
