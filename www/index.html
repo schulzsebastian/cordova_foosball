@@ -100,8 +100,11 @@
             <!-- ko if: winnerNames().length > 1 -->
                 <h5 class="header light">Zwycięzcy:</h5>
             <!-- /ko -->
-            <!-- ko ifnot: winnerNames().length > 1 -->
+            <!-- ko if: winnerNames().length == 1 -->
                 <h5 class="header light">Zwycięzca:</h5>
+            <!-- /ko -->
+            <!-- ko if: winnerNames().length == 1 -->
+              <h5 class="header light">Remis!</h5>
             <!-- /ko -->
             <br><br><h5><strong data-bind="text: winnerNames().join(' i ')"></strong></h5>
             </div>
@@ -234,14 +237,18 @@
                   self.teamBNames.push(player.name)
               })
           }
-          self.gratulationRouting = function(team){
+          self.gratulationRouting = function(team, draw){
               self.mainView(false)
               self.chooseView(false)
               self.playView(false)
               self.rankView(false)
               self.addPlayerView(false)
               self.gratulationView(true)
-              self.winnerNames(team)
+              if(draw){
+                self.winnerNames(undefined)
+              }else{
+                self.winnerNames(team)
+              }
           }
           self.rankRouting = function(){
               self.getData()
@@ -294,7 +301,7 @@
                   })
                 }
               })
-              self.gratulationRouting(self.teamANames())
+              self.gratulationRouting(self.teamANames(), undefined)
           }
           self.winTeamB = function(){
               self.data().forEach(function(player){
@@ -319,7 +326,7 @@
                   })
                 }
               })
-              self.gratulationRouting(self.teamBNames())
+              self.gratulationRouting(self.teamBNames(), undefined)
           }
           self.winDraw = function(item){
             var players = []
@@ -344,7 +351,7 @@
                 })
               }
             })
-            self.gratulationRouting(players)  
+            self.gratulationRouting(players, 'draw')  
           }
       }
       var vm = new indexModel();
