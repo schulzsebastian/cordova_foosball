@@ -97,16 +97,19 @@
         <h2 class="header center blue-text">Gratulacje!</h1>
         <div class="row center">
             <div class="col s12">
-            <!-- ko if: winnerNames().length > 1 -->
-                <h5 class="header light">Zwycięzcy:</h5>
-            <!-- /ko -->
-            <!-- ko if: winnerNames().length == 1 -->
-                <h5 class="header light">Zwycięzca:</h5>
-            <!-- /ko -->
-            <!-- ko if: winnerNames().length == 1 -->
+            <!-- ko if: winnerNames() == undefined -->
               <h5 class="header light">Remis!</h5>
+              <br><br><h5><strong>Wszyscy otrzymują 2 punkty!</strong></h5>
             <!-- /ko -->
-            <br><br><h5><strong data-bind="text: winnerNames().join(' i ')"></strong></h5>
+            <!-- ko ifnot: winnerNames() == undefined -->
+              <!-- ko if: winnerNames().length > 1 -->
+                  <h5 class="header light">Zwycięzcy:</h5>
+              <!-- /ko -->
+              <!-- ko if: winnerNames().length == 1 -->
+                  <h5 class="header light">Zwycięzca:</h5>
+              <!-- /ko -->
+              <br><br><h5><strong data-bind="text: winnerNames().join(' i ')"></strong></h5>
+            <!-- /ko -->
             </div>
             <br><br><br><br><br>
 
@@ -291,13 +294,7 @@
                     type: 'POST',
                     url: 'http://foosball.schulzsebastian.com/addpoints',
                     data: JSON.stringify(payload),
-                    contentType: 'application/json',
-                    success: function(data) {
-                      console.log('ok')
-                    },
-                    error: function(data) {
-                      console.log('nie ok')
-                    }
+                    contentType: 'application/json'
                   })
                 }
               })
@@ -316,13 +313,7 @@
                     type: 'POST',
                     url: 'http://foosball.schulzsebastian.com/addpoints',
                     data: JSON.stringify(payload),
-                    contentType: 'application/json',
-                    success: function(data) {
-                      console.log('ok')
-                    },
-                    error: function(data) {
-                      console.log('nie ok')
-                    }
+                    contentType: 'application/json'
                   })
                 }
               })
@@ -341,13 +332,7 @@
                   type: 'POST',
                   url: 'http://foosball.schulzsebastian.com/addpoints',
                   data: JSON.stringify(payload),
-                  contentType: 'application/json',
-                  success: function(data) {
-                    console.log('ok')
-                  },
-                  error: function(data) {
-                    console.log('nie ok')
-                  }
+                  contentType: 'application/json'
                 })
               }
             })
