@@ -271,14 +271,18 @@
               self.addPlayerView(true)
           }
           self.addPlayer = function(){
-              var id = -1;
-              self.data().forEach(function(player){
-                  if(player.id>id){
-                      id = player.id
+              var payload = {name:self.newPlayer(), points:0}
+              if(payload){
+                $.ajax({
+                  type: 'POST',
+                  url: 'http://foosball.schulzsebastian.com/addplayer',
+                  data: JSON.stringify(payload),
+                  contentType: 'application/json',
+                  success: function(data){
+                    alertify.success('Dodano gracza')
                   }
-              })
-              self.data.push({id:id+1, name:self.newPlayer(), points:ko.observable(0)})
-              alertify.success('Dodano gracza')
+                })
+              }
               self.newPlayer(undefined)
           }
           self.winTeamA = function(){
