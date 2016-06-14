@@ -37,7 +37,7 @@
       <h1 class="header center blue-text">Foosball</h1>
       <div class="row center">
         <div class="col s12">
-          <h5 class="header col s12 light">Śmieszne demotywujące zdanie</h5>
+          <h5 class="header col s12 light">Strzel sebiksową bramkę</h5>
         </div>
         <br><br><br><br><br>
         <div class="col s12">
@@ -47,7 +47,7 @@
     </div>
     <div class="section container" data-bind="visible: chooseView">
       <br><br>
-      <div class="row" style="padding-left:30px">
+      <div class="row" style="padding-left:50px">
         <div class="col s6">
           <!-- ko foreach: data -->
           <input type="checkbox" data-bind="attr: { id: 'a' + id }, checkedValue: $data, checked: $root.teamA, click: $root.nextTeam"/>
@@ -99,7 +99,7 @@
             <div class="col s12">
             <!-- ko if: winnerNames() == undefined -->
               <h5 class="header light">Remis!</h5>
-              <br><br><h5><strong>Wszyscy otrzymują 2 punkty!</strong></h5>
+              <br><br>
             <!-- /ko -->
             <!-- ko ifnot: winnerNames() == undefined -->
               <!-- ko if: winnerNames().length > 1 -->
