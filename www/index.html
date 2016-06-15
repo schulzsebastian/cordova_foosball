@@ -20,6 +20,24 @@
     <!-- Other -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
+  <style>
+  html {
+    min-height: 100%;
+    margin: 0;
+  }
+  body {
+    min-height: 100%;
+    margin: 0;
+  }
+  #buttons {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    bottom: 5%;
+  }
+  </style>
   <body>
     <div class="navbar-fixed">
       <nav class="blue" role="navigation">
@@ -39,22 +57,21 @@
         <div class="col s12">
           <h5 class="header col s12 light">Strzel sebiksową bramkę</h5>
         </div>
-        <br><br><br><br><br>
-        <div class="col s12">
+        <div class="col s12" id="buttons">
           <button class="btn-large waves-effect waves-light blue" data-bind="click: chooseTeams">Zagraj mecz</button>
         </div>
       </div>
     </div>
     <div class="section container" data-bind="visible: chooseView">
       <br><br>
-      <div class="row" style="padding-left:50px">
-        <div class="col s6">
+      <div class="row center" style="padding-left:10%">
+        <div class="col s6" style="text-align:left">
           <!-- ko foreach: data -->
           <input type="checkbox" data-bind="attr: { id: 'a' + id }, checkedValue: $data, checked: $root.teamA, click: $root.nextTeam"/>
           <label data-bind="attr: { for: 'a' + id }, text: name"></label><br>
           <!-- /ko -->
         </div>
-        <div class="col s6" data-bind="visible: secondTeamView">
+        <div class="col s6" data-bind="visible: secondTeamView" style="text-align:left">
           <!-- ko foreach: data -->
             <!-- ko if: $root.teamA.indexOf($data) < 0 -->
             <input type="checkbox" data-bind="attr: { id: 'b' + id }, checkedValue: $data, checked: $root.teamB, click: $root.checkTeams"/>
@@ -62,11 +79,10 @@
             <!-- /ko -->
           <!-- /ko -->
         </div>
-      </div>
-      <br><br><br><br><br><br>
-      <div class="row center">
-         <button class="btn-large waves-effect waves-light blue" data-bind="click: playTeams, visible: playButton">Graj!</button>
-         <button class="btn-large waves-effect waves-light red" data-bind="click: backToMain">Cofnij</button>
+        <div class="col s12" id="buttons">
+           <button class="btn-large waves-effect waves-light blue" data-bind="click: playTeams, visible: playButton">Graj!</button>
+           <button class="btn-large waves-effect waves-light red" data-bind="click: backToMain">Cofnij</button>
+        </div>
       </div>
     </div>
     <div class="section container" data-bind="visible: playView">
@@ -87,34 +103,30 @@
             <div class="col s12">
                 <button class="btn-large waves-effect waves-light blue" data-bind="text: teamBNames().join(' i '), click: winTeamB"></button>
             </div>
-            <br><br><br><br>
-            <div class="col s12">
+            <div class="col s12" id="buttons">
                 <button class="btn-large waves-effect waves-light red" data-bind="text: 'Cofnij', click: chooseTeams"></button>
             </div>
         </div>
     </div>
     <div class="section container" data-bind="visible: gratulationView">
-        <h2 class="header center blue-text">Gratulacje!</h1>
         <div class="row center">
             <div class="col s12">
             <!-- ko if: winnerNames() == undefined -->
-              <h5 class="header light">Remis!</h5>
+              <h2 class="header center blue-text">Remis!</h1>
               <br><br>
             <!-- /ko -->
             <!-- ko ifnot: winnerNames() == undefined -->
+              <h2 class="header center blue-text">Gratulacje!</h1>
               <!-- ko if: winnerNames().length > 1 -->
                   <h5 class="header light">Zwycięzcy:</h5>
               <!-- /ko -->
               <!-- ko if: winnerNames().length == 1 -->
                   <h5 class="header light">Zwycięzca:</h5>
               <!-- /ko -->
-              <br><br><h5><strong data-bind="text: winnerNames().join(' i ')"></strong></h5>
+              <br><h5><strong data-bind="text: winnerNames().join(' i ')"></strong></h5>
             <!-- /ko -->
             </div>
-            <br><br><br><br><br>
-
-            <br><br><br><br><br>
-            <div class="col s12">
+            <div class="col s12" id="buttons">
                 <button class="btn-large waves-effect waves-light blue" data-bind="text: 'Zagraj jeszcze raz!', click: backToMain"></button>
             </div>
         </div>
@@ -122,7 +134,7 @@
     <div class="section container" data-bind="visible: rankView">
         <h2 class="header center blue-text">Ranking</h1>
         <div class="row center">
-            <div class="col s12" style="padding-left:30px">
+            <div class="col s12" style="padding-left:5%">
             <!-- ko foreach: data -->
                 <div class="col s6">
                 <h5 class="header light" data-bind="text: name"></h5>
@@ -134,7 +146,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col s12 center">
+            <div class="col s12 center" id="buttons">
                 <button class="btn-large waves-effect waves-light red" data-bind="text: 'Cofnij', click: backToMain"></button>
             </div>
         </div>
@@ -150,7 +162,7 @@
         </div>
         <br><br>
         <div class="row center">
-            <div class="col s12">
+            <div class="col s12" id="buttons">
                 <button class="btn-large waves-effect waves-light blue" data-bind="click: addPlayer, visible: newPlayer">Dodaj</button>
                 <button class="btn-large waves-effect waves-light red" data-bind="click: backToMain">Cofnij</button>
             </div>
