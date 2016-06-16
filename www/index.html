@@ -24,6 +24,7 @@
   html {
     min-height: 100%;
     margin: 0;
+    position: relative;
   }
   body {
     min-height: 100%;
@@ -31,11 +32,13 @@
   }
   #buttons {
     position: absolute;
+    width: 100%;
     left: 0;
     right: 0;
-    margin-left: auto;
-    margin-right: auto;
     bottom: 5%;
+  }
+  .alertify-notifier.ajs-bottom.ajs-right{
+    bottom: 20%;
   }
   </style>
   <body>
@@ -55,7 +58,7 @@
       <h1 class="header center blue-text">Foosball</h1>
       <div class="row center">
         <div class="col s12">
-          <h5 class="header col s12 light">Strzel sebiksową bramkę</h5>
+          <h5 class="header col s12 light">#########</h5>
         </div>
         <div class="col s12" id="buttons">
           <button class="btn-large waves-effect waves-light blue" data-bind="click: chooseTeams">Zagraj mecz</button>
@@ -132,15 +135,15 @@
         </div>
     </div>
     <div class="section container" data-bind="visible: rankView">
-        <h2 class="header center blue-text">Ranking</h1>
+        <h2 class="header center blue-text">Ranking</h1><br><br>
         <div class="row center">
-            <div class="col s12">
+            <div class="col s12" style="padding-bottom:100px;">
             <!-- ko foreach: data -->
                 <div class="col m4 offset-m2 s5 offset-s1">
-                <h5 class="header light" data-bind="text: name"></h5>
+                <h5 class="header light"><span data-bind="text: name"></span></h5>
                 </div>
                 <div class="col m4 offset-m2 s5 offset-s1">
-                <h5 class="header light" data-bind="text: points"></h5>
+                <h5 class="header light"><span data-bind="text: points"></span><span data-bind="text: '('+games+')'" style="font-size:0.5em"></span></h5>
                 </div>
             <!-- /ko -->
             </div>
@@ -172,10 +175,11 @@
     <script>
       function indexModel(){
           var self = this;
+          var URL_LINK = "http://127.0.0.1:5000"
 
           self.data = ko.observableArray()
           self.getData = function() {
-              $.getJSON('http://foosball.schulzsebastian.com/getplayers',{},function(data){
+              $.getJSON(URL_LINK+'/getplayers',{},function(data){
                   self.data([])
                   data.data.forEach(function(player){
                       self.data.push(player)
@@ -283,11 +287,11 @@
               self.addPlayerView(true)
           }
           self.addPlayer = function(){
-              var payload = {name:self.newPlayer(), points:0}
+              var payload = {name:self.newPlayer(), points:0, games:0}
               if(payload){
                 $.ajax({
                   type: 'POST',
-                  url: 'http://foosball.schulzsebastian.com/addplayer',
+                  url: URL_LINK+'/addplayer',
                   data: JSON.stringify(payload),
                   contentType: 'application/json',
                   success: function(data){
@@ -308,7 +312,7 @@
                 if(payload){
                   $.ajax({
                     type: 'POST',
-                    url: 'http://foosball.schulzsebastian.com/addpoints',
+                    url: URL_LINK+'/addpoints',
                     data: JSON.stringify(payload),
                     contentType: 'application/json'
                   })
@@ -327,7 +331,7 @@
                 if(payload){
                   $.ajax({
                     type: 'POST',
-                    url: 'http://foosball.schulzsebastian.com/addpoints',
+                    url: URL_LINK+'/addpoints',
                     data: JSON.stringify(payload),
                     contentType: 'application/json'
                   })
@@ -346,13 +350,13 @@
               if(payload){
                 $.ajax({
                   type: 'POST',
-                  url: 'http://foosball.schulzsebastian.com/addpoints',
+                  url: URL_LINK+'/addpoints',
                   data: JSON.stringify(payload),
                   contentType: 'application/json'
                 })
               }
             })
-            self.gratulationRouting(players, 'draw')  
+            self.gratulationRouting(players, 'draw')
           }
       }
       var vm = new indexModel();
