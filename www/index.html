@@ -64,14 +64,14 @@
     </div>
     <div class="section container" data-bind="visible: chooseView">
       <br><br>
-      <div class="row center" style="padding-left:10%">
-        <div class="col s6" style="text-align:left">
+      <div class="row center">
+        <div class="col m4 offset-m2 s5 offset-s1" style="text-align:left">
           <!-- ko foreach: data -->
           <input type="checkbox" data-bind="attr: { id: 'a' + id }, checkedValue: $data, checked: $root.teamA, click: $root.nextTeam"/>
           <label data-bind="attr: { for: 'a' + id }, text: name"></label><br>
           <!-- /ko -->
         </div>
-        <div class="col s6" data-bind="visible: secondTeamView" style="text-align:left">
+        <div class="col m4 offset-m2 s5 offset-s1" data-bind="visible: secondTeamView" style="text-align:left">
           <!-- ko foreach: data -->
             <!-- ko if: $root.teamA.indexOf($data) < 0 -->
             <input type="checkbox" data-bind="attr: { id: 'b' + id }, checkedValue: $data, checked: $root.teamB, click: $root.checkTeams"/>
@@ -134,12 +134,12 @@
     <div class="section container" data-bind="visible: rankView">
         <h2 class="header center blue-text">Ranking</h1>
         <div class="row center">
-            <div class="col s12" style="padding-left:5%">
+            <div class="col s12">
             <!-- ko foreach: data -->
-                <div class="col s6">
+                <div class="col m4 offset-m2 s5 offset-s1">
                 <h5 class="header light" data-bind="text: name"></h5>
                 </div>
-                <div class="col s6">
+                <div class="col m4 offset-m2 s5 offset-s1">
                 <h5 class="header light" data-bind="text: points"></h5>
                 </div>
             <!-- /ko -->
