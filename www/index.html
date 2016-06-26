@@ -40,6 +40,12 @@
   .alertify-notifier.ajs-bottom.ajs-right{
     bottom: 20%;
   }
+  .preloader-wrapper {
+    visibility: hidden;
+    left : 50%;
+    top : 50%;
+    position : absolute;
+  }
   </style>
   <body>
     <div class="navbar-fixed">
@@ -171,6 +177,17 @@
             </div>
         </div>
     </div>
+    <div class="preloader-wrapper active">
+      <div class="spinner-layer spinner-blue-only">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
     <!-- Main function -->
     <script>
       function indexModel(){
@@ -178,14 +195,17 @@
           var URL_LINK = "http://foosball.schulzsebastian.com"
 
           self.data = ko.observableArray()
-          self.getData = function() {
-              $.getJSON(URL_LINK+'/getplayers',{},function(data){
-                  self.data([])
-                  data.data.forEach(function(player){
-                      self.data.push(player)
-                  })
-                  console.log(self.data())
-              })
+          self.getData = function(){
+            $('.preloader-wrapper').css('visibility','visible')
+            $.getJSON(URL_LINK+'/getplayers',{},function(data){
+                self.data([])
+                data.data.forEach(function(player){
+                    self.data.push(player)
+                })
+                console.log(self.data())
+            }).done(function(){
+              $('.preloader-wrapper').css('visibility','hidden')
+            })
           }
 
           self.teamA = ko.observableArray()
